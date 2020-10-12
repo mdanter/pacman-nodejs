@@ -3,6 +3,7 @@ def IMAGE_REPOSITORY = "pacman-nodejs"
 // For available target clusters, contact your platform administrator
 def TARGET_CLUSTER_DOMAIN = "demo.dak1001.com"
 def CLUSTER = [:];
+CLUSTER['demo.dak1001.com']= [:];
 CLUSTER['demo.dak1001.com']['KUBE_DOMAIN_NAME']= '';
 CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '';
 CLUSTER['demo.dak1001.com']['REGISTRY_CREDENTIALS_ID']= '';
