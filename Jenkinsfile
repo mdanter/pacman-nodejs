@@ -3,6 +3,19 @@ IMAGE_REPOSITORY = "pacman-nodejs"
 // For available target clusters, contact your platform administrator
 TARGET_CLUSTER_DOMAIN = "demo.dak1001.com"
 
+CLUSTER['demo.dak1001.com']['KUBE_DOMAIN_NAME']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_CREDENTIALS_ID']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_HOSTNAME']= '';
+CLUSTER['demo.dak1001.com']['TRUST_SIGNER_KEY']= '';
+CLUSTER['demo.dak1001.com']['TRUST_SIGNER_PASSPHRASE_CREDENTAILS_ID']= '';
+CLUSTER['demo.dak1001.com']['KUBERNETES_CONTEXT']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '';
+CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '';
+
+
 ORCHESTRATOR = "kubernetes"
 KUBERNETES_INGRESS = "ingress"
 TARGET_CLUSTER = CLUSTER.get(TARGET_CLUSTER_DOMAIN)
@@ -102,14 +115,6 @@ node {
                     sh 'envsubst < kubernetes/cluster/006_pacman_${KUBERNETES_INGRESS}.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
                 }
             }
-            else if (ORCHESTRATOR.toLowerCase() == "swarm"){
-                println("Deploying to Swarm")
-                withEnv(["UCP_COLLECTION_PATH=${UCP_COLLECTION_PATH}"]) {
-                    withDockerServer([credentialsId: TARGET_CLUSTER['UCP_CREDENTIALS_ID'], uri: TARGET_CLUSTER['UCP_URI']]) {
-                        sh "docker stack deploy -c swarm/docker-compose.yml ${SWARM_STACK_NAME}-dev"
-                    }
-                }
-            }
 
             println("Application deployed to Development: http://${APPLICATION_FQDN}")
         }
@@ -158,14 +163,6 @@ node {
                     sh 'envsubst < kubernetes/cluster/004_pacman_deployment.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
                     sh 'envsubst < kubernetes/cluster/005_pacman_service.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
                     sh 'envsubst < kubernetes/cluster/006_pacman_${KUBERNETES_INGRESS}.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
-                }
-            }
-            else if (ORCHESTRATOR.toLowerCase() == "swarm"){
-                println("Deploying to Swarm")
-                withEnv(["UCP_COLLECTION_PATH=${UCP_COLLECTION_PATH}"]) {
-                    withDockerServer([credentialsId: TARGET_CLUSTER['UCP_CREDENTIALS_ID'], uri: TARGET_CLUSTER['UCP_URI']]) {
-                        sh "docker stack deploy -c swarm/docker-compose.yml ${SWARM_STACK_NAME}"
-                    }
                 }
             }
 
