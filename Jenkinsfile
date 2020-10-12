@@ -1,35 +1,16 @@
 IMAGE_REPOSITORY = "pacman-nodejs"
 
 // For available target clusters, contact your platform administrator
-TARGET_CLUSTER_DOMAIN = "eu.demo.mirantis.com"
+TARGET_CLUSTER_DOMAIN = "demo.dak1001.com"
 
-// Available orchestrators = [ "kubernetes" | "swarm" ]
 ORCHESTRATOR = "kubernetes"
-
-// Available ingress = [ "ingress" | "istio_gateway" ]
 KUBERNETES_INGRESS = "ingress"
-
-if(! CLUSTER.containsKey(TARGET_CLUSTER_DOMAIN)){
-    error("Unknown cluster '${TARGET_CLUSTER_DOMAIN}'")
-}
 TARGET_CLUSTER = CLUSTER.get(TARGET_CLUSTER_DOMAIN)
+KUBERNETES_NAMESPACE_DEV = "${IMAGE_NAMESPACE_DEV}"
+KUBERNETES_NAMESPACE_PROD = "${IMAGE_NAMESPACE_PROD}"
 
-if(ORCHESTRATOR.toLowerCase() == "kubernetes"){
-    KUBERNETES_NAMESPACE_DEV = "${IMAGE_NAMESPACE_DEV}"
-    KUBERNETES_NAMESPACE_PROD = "${IMAGE_NAMESPACE_PROD}"
+APPLICATION_DOMAIN = "${USERNAME}.${TARGET_CLUSTER['KUBE_DOMAIN_NAME']}"
 
-    APPLICATION_DOMAIN = "${USERNAME}.${TARGET_CLUSTER['KUBE_DOMAIN_NAME']}"
-}
-else if (ORCHESTRATOR.toLowerCase() == "swarm"){
-    SWARM_SERVICE_NAME = "${USERNAME}-${IMAGE_REPOSITORY}"
-    SWARM_STACK_NAME = "${USERNAME}-${IMAGE_REPOSITORY}"
-    UCP_COLLECTION_PATH = "/Shared/Private/${USERNAME}"
-
-    APPLICATION_DOMAIN = "${USERNAME}.${TARGET_CLUSTER['SWARM_DOMAIN_NAME']}"
-}
-else {
-    error("Unsupported orchestrator")
-}
 
 if(! ["ingress", "istio_gateway"].contains(KUBERNETES_INGRESS)){
     error("Unsupported Kubernetes ingress type '${KUBERNETES_INGRESS}'")
