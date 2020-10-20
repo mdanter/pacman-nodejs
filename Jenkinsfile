@@ -1,16 +1,16 @@
 def IMAGE_REPOSITORY = "pacman-nodejs"
 
 // For available target clusters, contact your platform administrator
-def TARGET_CLUSTER_DOMAIN = "demo.dak1001.com"
+def TARGET_CLUSTER_DOMAIN = "demo.mdanter.lan"
 def CLUSTER = [:];
-CLUSTER['demo.dak1001.com']= [:];
-CLUSTER['demo.dak1001.com']['KUBE_DOMAIN_NAME']= 'demo.dak1001.com';
-CLUSTER['demo.dak1001.com']['REGISTRY_URI']= '/harbor/projects';
-CLUSTER['demo.dak1001.com']['REGISTRY_CREDENTIALS_ID']= 'jenkins-ci';
-CLUSTER['demo.dak1001.com']['REGISTRY_HOSTNAME']= 'harbor.demo.dak1001.com';
-CLUSTER['demo.dak1001.com']['TRUST_SIGNER_KEY']= '';
-CLUSTER['demo.dak1001.com']['TRUST_SIGNER_PASSPHRASE_CREDENTAILS_ID']= '';
-CLUSTER['demo.dak1001.com']['KUBERNETES_CONTEXT']= '';
+CLUSTER['demo.mdanter.lan']= [:];
+CLUSTER['demo.mdanter.lan']['KUBE_DOMAIN_NAME']= 'demo.mdanter.lan';
+CLUSTER['demo.mdanter.lan']['REGISTRY_URI']= 'https://harbor.mdanter.lan';
+CLUSTER['demo.mdanter.lan']['REGISTRY_CREDENTIALS_ID']= 'jenkins-ci';
+CLUSTER['demo.mdanter.lan']['REGISTRY_HOSTNAME']= 'harbor.mdanter.lan';
+CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_KEY']= '';
+CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_PASSPHRASE_CREDENTAILS_ID']= '';
+CLUSTER['demo.mdanter.lan']['KUBERNETES_CONTEXT']= '';
 
 ORCHESTRATOR = "kubernetes"
 KUBERNETES_INGRESS = "ingress"
