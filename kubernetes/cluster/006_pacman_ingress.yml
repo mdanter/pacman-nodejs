@@ -8,7 +8,6 @@ spec:
       http:
         paths:
           - backend:
-            path: /
             pathType: ImplementationSpecific
               service:
                 name: pacman
