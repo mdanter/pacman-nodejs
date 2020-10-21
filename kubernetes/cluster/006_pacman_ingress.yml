@@ -4,4 +4,13 @@ metadata:
   name: pacman
 spec:
   rules:
-    - host: ${APPLICATION_FQDN}
+  - host: ${APPLICATION_FQDN}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pacman
+            port:
+              number: 80
