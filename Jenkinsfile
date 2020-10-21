@@ -10,9 +10,8 @@ CLUSTER['demo.mdanter.lan']['REGISTRY_CREDENTIALS_ID']= 'jenkins-ci';
 CLUSTER['demo.mdanter.lan']['REGISTRY_HOSTNAME']= 'harbor.mdanter.lan';
 CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_KEY']= '';
 CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_PASSPHRASE_CREDENTAILS_ID']= '';
-CLUSTER['demo.mdanter.lan']['KUBERNETES_CONTEXT']= '';
+CLUSTER['demo.mdanter.lan']['KUBERNETES_CONTEXT']= 'demo-admin@demo';
 
-ORCHESTRATOR = "kubernetes"
 KUBERNETES_INGRESS = "ingress"
 TARGET_CLUSTER = CLUSTER[TARGET_CLUSTER_DOMAIN]
 
@@ -24,12 +23,7 @@ KUBERNETES_NAMESPACE_PROD = "${IMAGE_NAMESPACE_PROD}"
 
 USERNAME='mdanter'
 
-APPLICATION_DOMAIN = "${USERNAME}.${TARGET_CLUSTER['KUBE_DOMAIN_NAME']}"
-
-
-if(! ["ingress", "istio_gateway"].contains(KUBERNETES_INGRESS)){
-    error("Unsupported Kubernetes ingress type '${KUBERNETES_INGRESS}'")
-}
+APPLICATION_DOMAIN = "${TARGET_CLUSTER['KUBE_DOMAIN_NAME']}"
 
 MONGO_TAG="latest"
 
@@ -104,19 +98,25 @@ node {
                  "IMAGE_TAG=${IMAGE_TAG}",
                  "MONGO_TAG=${MONGO_TAG}",
                  "USERNAME=${USERNAME}"]) {
-            if(ORCHESTRATOR.toLowerCase() == "kubernetes"){
+            
                 println("Deploying to Kubernetes")
                 withEnv(["KUBERNETES_CONTEXT=${TARGET_CLUSTER['KUBERNETES_CONTEXT']}", 
                          "KUBERNETES_INGRESS=${KUBERNETES_INGRESS}",
                          "KUBERNETES_NAMESPACE=${KUBERNETES_NAMESPACE_DEV}"]) {
+
                     sh 'envsubst < kubernetes/cluster/001_mongo_pvc.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
+                    
                     sh 'envsubst < kubernetes/cluster/002_mongo_deployment.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
+                    
                     sh 'envsubst < kubernetes/cluster/003_mongo_service.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
+                    
                     sh 'envsubst < kubernetes/cluster/004_pacman_deployment.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
+                    
                     sh 'envsubst < kubernetes/cluster/005_pacman_service.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
+                    
                     sh 'envsubst < kubernetes/cluster/006_pacman_${KUBERNETES_INGRESS}.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
                 }
-            }
+            
 
             println("Application deployed to Development: http://${APPLICATION_FQDN}")
         }
@@ -154,7 +154,7 @@ node {
                  "IMAGE_TAG=${IMAGE_TAG}",
                  "MONGO_TAG=${MONGO_TAG}",
                  "USERNAME=${USERNAME}"]) {
-            if(ORCHESTRATOR.toLowerCase() == "kubernetes"){
+            
                 println("Deploying to Kubernetes")
                 withEnv(["KUBERNETES_CONTEXT=${TARGET_CLUSTER['KUBERNETES_CONTEXT']}", 
                          "KUBERNETES_INGRESS=${KUBERNETES_INGRESS}",
@@ -166,7 +166,7 @@ node {
                     sh 'envsubst < kubernetes/cluster/005_pacman_service.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
                     sh 'envsubst < kubernetes/cluster/006_pacman_${KUBERNETES_INGRESS}.yml | kubectl --context=${KUBERNETES_CONTEXT} --namespace=${KUBERNETES_NAMESPACE} apply -f -'
                 }
-            }
+            
 
             println("Application deployed to Production: http://${APPLICATION_FQDN}")
         }
