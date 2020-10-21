@@ -4,7 +4,7 @@ def IMAGE_REPOSITORY = "pacman-nodejs"
 def TARGET_CLUSTER_DOMAIN = "demo.mdanter.lan"
 def CLUSTER = [:];
 CLUSTER['demo.mdanter.lan']= [:];
-CLUSTER['demo.mdanter.lan']['KUBE_DOMAIN_NAME']= 'demo.mdanter.lan';
+CLUSTER['demo.mdanter.lan']['KUBE_DOMAIN_NAME']= 'mdanter.lan';
 CLUSTER['demo.mdanter.lan']['REGISTRY_URI']= 'https://harbor.mdanter.lan';
 CLUSTER['demo.mdanter.lan']['REGISTRY_CREDENTIALS_ID']= 'jenkins-ci';
 CLUSTER['demo.mdanter.lan']['REGISTRY_HOSTNAME']= 'harbor.mdanter.lan';
@@ -95,7 +95,7 @@ node {
     }
 
     stage('Deploy to Development') {
-        withEnv(["APPLICATION_FQDN=${IMAGE_REPOSITORY}.dev.${APPLICATION_DOMAIN}",
+        withEnv(["APPLICATION_FQDN=${IMAGE_REPOSITORY}-dev.${APPLICATION_DOMAIN}",
                  "REGISTRY_HOSTNAME=${TARGET_CLUSTER['REGISTRY_HOSTNAME']}",
                  "IMAGE_NAMESPACE=${IMAGE_NAMESPACE_DEV}",
                  "IMAGE_REPOSITORY=${IMAGE_REPOSITORY}",
@@ -156,7 +156,7 @@ node {
     }
 
     stage('Deploy to Production') {
-        withEnv(["APPLICATION_FQDN=${IMAGE_REPOSITORY}.prod.${APPLICATION_DOMAIN}",
+        withEnv(["APPLICATION_FQDN=${IMAGE_REPOSITORY}-prod.${APPLICATION_DOMAIN}",
                  "REGISTRY_HOSTNAME=${TARGET_CLUSTER['REGISTRY_HOSTNAME']}",
                  "IMAGE_NAMESPACE=${IMAGE_NAMESPACE_PROD}",
                  "IMAGE_REPOSITORY=${IMAGE_REPOSITORY}",
