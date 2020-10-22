@@ -9,7 +9,7 @@ CLUSTER['demo.mdanter.lan']['REGISTRY_URI']= 'https://harbor.mdanter.lan';
 CLUSTER['demo.mdanter.lan']['REGISTRY_CREDENTIALS_ID']= 'jenkins-ci';
 CLUSTER['demo.mdanter.lan']['REGISTRY_HOSTNAME']= 'harbor.mdanter.lan';
 CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_KEY']= '';
-CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_PASSPHRASE_CREDENTAILS_ID']= '';
+CLUSTER['demo.mdanter.lan']['TRUST_SIGNER_PASSPHRASE_CREDENTAILS_ID']= 'VMware1!';
 CLUSTER['demo.mdanter.lan']['KUBERNETES_CONTEXT']= 'demo-admin@demo';
 
 KUBERNETES_INGRESS = "ingress"
@@ -80,7 +80,7 @@ node {
     }
 
     stage('Sign Development Image') {
-        /*
+        
         withEnv(["REGISTRY_HOSTNAME=${TARGET_CLUSTER['REGISTRY_HOSTNAME']}",
                  "IMAGE_NAMESPACE=${IMAGE_NAMESPACE_DEV}",
                  "IMAGE_REPOSITORY=${IMAGE_REPOSITORY}",
@@ -91,7 +91,7 @@ node {
                 sh 'docker trust sign ${REGISTRY_HOSTNAME}/${IMAGE_NAMESPACE}/${IMAGE_REPOSITORY}:${IMAGE_TAG}'
             }
         }
-        */
+        
     }
 
     stage('Deploy to Development') {
@@ -134,7 +134,7 @@ node {
     }
 
     stage('Promote') {
-
+        
         docker_image = docker.build("${IMAGE_NAMESPACE_PROD}/${IMAGE_REPOSITORY}")
 
         docker.withRegistry(TARGET_CLUSTER['REGISTRY_URI'], TARGET_CLUSTER['REGISTRY_CREDENTIALS_ID']) {
