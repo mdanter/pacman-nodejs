@@ -135,7 +135,8 @@ node {
 
     stage('Promote') {
 
-        docker_image = docker.build("${IMAGE_NAMESPACE_PROD}/${IMAGE_REPOSITORY}
+        docker_image = docker.build("${IMAGE_NAMESPACE_PROD}/${IMAGE_REPOSITORY}")
+
         docker.withRegistry(TARGET_CLUSTER['REGISTRY_URI'], TARGET_CLUSTER['REGISTRY_CREDENTIALS_ID']) {
             docker_image.push(IMAGE_TAG)
         }
