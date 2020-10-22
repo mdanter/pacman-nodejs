@@ -51,9 +51,11 @@ node {
     }
 
     stage('Scan') {
-        
+        //This currently starts scanning
         httpRequest acceptType: 'APPLICATION_JSON', authentication: TARGET_CLUSTER['REGISTRY_CREDENTIALS_ID'], contentType: 'APPLICATION_JSON', httpMode: 'POST', ignoreSslErrors: true, responseHandle: 'NONE', url: "${TARGET_CLUSTER['REGISTRY_URI']}/api/v2.0/projects/${IMAGE_NAMESPACE_DEV}/repositories/${IMAGE_REPOSITORY}/artifacts/${IMAGE_TAG}/scan"
-        /*
+
+        
+        /* functionality to get scan response TBD
         def scan_result
 
         def scanning = true
@@ -137,7 +139,7 @@ node {
     }
 
     stage('Promote') {
-        
+        //hack at the moment to push image to prod namespace
         docker_image = docker.build("${IMAGE_NAMESPACE_PROD}/${IMAGE_REPOSITORY}")
 
         docker.withRegistry(TARGET_CLUSTER['REGISTRY_URI'], TARGET_CLUSTER['REGISTRY_CREDENTIALS_ID']) {
