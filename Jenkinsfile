@@ -53,14 +53,14 @@ node {
     stage('Scan') {
         
         httpRequest acceptType: 'APPLICATION_JSON', authentication: TARGET_CLUSTER['REGISTRY_CREDENTIALS_ID'], contentType: 'APPLICATION_JSON', httpMode: 'POST', ignoreSslErrors: true, responseHandle: 'NONE', url: "${TARGET_CLUSTER['REGISTRY_URI']}/api/v2.0/projects/${IMAGE_NAMESPACE_DEV}/repositories/${IMAGE_REPOSITORY}/artifacts/${IMAGE_TAG}/scan"
-        
+        /*
         def scan_result
 
         def scanning = true
         while(scanning) {
             def scan_result_response = httpRequest acceptType: 'APPLICATION_JSON', authentication: TARGET_CLUSTER['REGISTRY_CREDENTIALS_ID'], httpMode: 'GET', ignoreSslErrors: true, responseHandle: 'LEAVE_OPEN', url: "${TARGET_CLUSTER['REGISTRY_URI']}/api/v2.0/projects/${IMAGE_NAMESPACE_DEV}/repositories/${IMAGE_REPOSITORY}/artifacts/${IMAGE_TAG}/scan/latest/log"
-            println ('RAw response: ' + scan_result_response);
-            
+            println ('RAW response: ' + scan_result_response);
+
             scan_result = readJSON text: scan_result_response.content
 
 
@@ -79,7 +79,7 @@ node {
 
         }
         println('Response JSON: ' + scan_result)
-        
+        */
     }
 
     stage('Sign Development Image') {
