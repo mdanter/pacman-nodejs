@@ -80,7 +80,7 @@ node {
     }
 
     stage('Sign Development Image') {
-        
+        /*
         withEnv(["REGISTRY_HOSTNAME=${TARGET_CLUSTER['REGISTRY_HOSTNAME']}",
                  "IMAGE_NAMESPACE=${IMAGE_NAMESPACE_DEV}",
                  "IMAGE_REPOSITORY=${IMAGE_REPOSITORY}",
@@ -91,7 +91,7 @@ node {
                 sh 'docker trust sign ${REGISTRY_HOSTNAME}/${IMAGE_NAMESPACE}/${IMAGE_REPOSITORY}:${IMAGE_TAG}'
             }
         }
-        
+        */
     }
 
     stage('Deploy to Development') {
