@@ -2,7 +2,7 @@ ARG BASE_IMAGE=node:13.12.0-alpine3.11
 
 FROM ${BASE_IMAGE}
 
-MAINTAINER Aaron Rueth <arueth@mirantis.com>
+MAINTAINER Matyas Danter <mdanter@vmware.com>
 
 RUN mkdir -p  /home/node/app
 WORKDIR  /home/node/app
